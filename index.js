@@ -4,7 +4,7 @@ const port = process.env.PORT || 3000;
 
 // Route for the root URL
 app.get('/', (req, res) => {
-  res.json({ message: 'hello world' });
+  res.json({ message: 'hello world!' });
 });
 
 // Start the server
