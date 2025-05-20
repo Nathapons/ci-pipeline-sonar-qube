@@ -1,17 +1,25 @@
 const request = require('supertest');
-const express = require('express');
+const app = require('./index');
 
-// Since index.js doesn't export the app, we'll create a test version
-// that mimics the behavior of the original app
-const app = express();
-app.get('/', (req, res) => {
-  res.json({ message: 'hello world' });
-});
+describe('Express App Tests', () => {
+  describe('GET /', () => {
+    it('should return hello world message', async () => {
+      const response = await request(app)
+        .get('/')
+        .expect('Content-Type', /json/)
+        .expect(200);
 
-describe('Express App', () => {
-  test('GET / should return hello world message', async () => {
-    const response = await request(app).get('/');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual({ message: 'hello world' });
+      expect(response.body).toEqual({
+        message: 'hello world!'
+      });
+    });
+  });
+
+  describe('Non-existent route', () => {
+    it('should return 404 for non-existent routes', async () => {
+      await request(app)
+        .get('/non-existent-route')
+        .expect(404);
+    });
   });
 });
