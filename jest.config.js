@@ -1,4 +1,7 @@
 module.exports = {
   testEnvironment: 'node',
-  verbose: true
+  verbose: true,
+  collectCoverage: true,
+  coverageReporters: ['lcov', 'text', 'clover'],
+  coverageDirectory: 'coverage'
 };
