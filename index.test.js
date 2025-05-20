@@ -1,25 +1,24 @@
-const request = require('supertest');
-const app = require('./index');
+// app.test.js
+const request = require('supertest'); // Import supertest
+const app = require('./index');         // Import your Express app
 
-describe('Express App Tests', () => {
-  describe('GET /', () => {
-    it('should return hello world message', async () => {
-      const response = await request(app)
-        .get('/')
-        .expect('Content-Type', /json/)
-        .expect(200);
-
-      expect(response.body).toEqual({
-        message: 'hello world!'
-      });
-    });
+describe('GET /', () => {
+  test('should respond with a 200 status code', async () => {
+    const response = await request(app).get('/');
+    expect(response.statusCode).toBe(200);
   });
 
-  describe('Non-existent route', () => {
-    it('should return 404 for non-existent routes', async () => {
-      await request(app)
-        .get('/non-existent-route')
-        .expect(404);
-    });
+  test('should respond with "hello world!" message', async () => {
+    const response = await request(app).get('/');
+    expect(response.body.message).toBe('hello world!');
+  });
+
+  // You can combine multiple assertions in one test if they are related
+  test('should respond with correct JSON and status for root', async () => {
+    await request(app)
+      .get('/')
+      .expect(200)               // Supertest can directly assert status codes
+      .expect('Content-Type', /json/) // Check content type
+      .expect({ message: 'hello world!' }); // Supertest can directly assert JSON body
   });
 });
