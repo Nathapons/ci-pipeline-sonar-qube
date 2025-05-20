@@ -1,6 +1,6 @@
 // app.test.js
 const request = require('supertest'); // Import supertest
-const app = require('./index');         // Import your Express app
+const app = require('./app');         // Import your Express app
 
 describe('GET /', () => {
   test('should respond with a 200 status code', async () => {
